@@ -1,10 +1,10 @@
 # CursorWitness Core
 
+![CursorWitness Core](assets/core-hero.svg)
+
 [![CI](https://github.com/CursorWitness/cursorwitness-core/actions/workflows/ci.yml/badge.svg)](https://github.com/CursorWitness/cursorwitness-core/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Node.js 20+](https://img.shields.io/badge/node.js-20%2B-339933.svg)](https://nodejs.org/)
-
-![CursorWitness core lifecycle](assets/core-lifecycle.svg)
 
 The transport-neutral reliability engine for [CursorWitness](https://github.com/CursorWitness).
 
@@ -72,6 +72,10 @@ This repository is an implementation seam for the CursorWitness v0.1.0 developme
 
 - [`cursorwitness-cli`](https://github.com/CursorWitness/cursorwitness-cli) — offline executable and report presentation
 - [`cursorwitness-adapters`](https://github.com/CursorWitness/cursorwitness-adapters) — consumer-specific integration seams
+
+## Visual guide
+
+![CursorWitness core lifecycle](assets/core-lifecycle.svg)
 
 ## License
 
