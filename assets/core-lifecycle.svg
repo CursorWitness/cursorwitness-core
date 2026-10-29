@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="360" viewBox="0 0 1200 360" role="img" aria-labelledby="title desc">
+  <title id="title">CursorWitness core lifecycle</title>
+  <desc id="desc">A deterministic getEvents fixture flows through a fake RPC and consumer adapter into observations and an independent oracle report.</desc>
+  <rect width="1200" height="360" rx="24" fill="#0d1117"/>
+  <text x="60" y="58" fill="#f0f6fc" font-family="Segoe UI,Arial,sans-serif" font-size="28" font-weight="700">CursorWitness core lifecycle</text>
+  <text x="60" y="88" fill="#8b949e" font-family="Segoe UI,Arial,sans-serif" font-size="16">Deterministic evidence from event delivery to an independent report</text>
+  <g font-family="Segoe UI,Arial,sans-serif" font-size="17" font-weight="600" text-anchor="middle">
+    <rect x="60" y="145" width="205" height="92" rx="14" fill="#161b22" stroke="#58a6ff" stroke-width="2"/><text x="162" y="180" fill="#f0f6fc">getEvents fixture</text><text x="162" y="207" fill="#8b949e" font-size="14">opaque pages + cursors</text>
+    <rect x="315" y="145" width="205" height="92" rx="14" fill="#161b22" stroke="#bc8cff" stroke-width="2"/><text x="417" y="180" fill="#f0f6fc">fake RPC</text><text x="417" y="207" fill="#8b949e" font-size="14">fault plan + playback</text>
+    <rect x="570" y="145" width="205" height="92" rx="14" fill="#161b22" stroke="#3fb950" stroke-width="2"/><text x="672" y="180" fill="#f0f6fc">consumer adapter</text><text x="672" y="207" fill="#8b949e" font-size="14">lifecycle under test</text>
+    <rect x="825" y="145" width="315" height="92" rx="14" fill="#161b22" stroke="#f0883e" stroke-width="2"/><text x="982" y="180" fill="#f0f6fc">observations → oracle report</text><text x="982" y="207" fill="#8b949e" font-size="14">assertions + unverified boundaries</text>
+  </g>
+  <g stroke="#8b949e" stroke-width="2" fill="none"><path d="M265 191h50m205 0h50m205 0h50"/><path d="m305 185 10 6-10 6m255-6 10 6-10 6m255-6 10 6-10 6"/></g>
+  <text x="60" y="300" fill="#8b949e" font-family="Segoe UI,Arial,sans-serif" font-size="15">No live RPC • no wallet • no database required</text>
+</svg>

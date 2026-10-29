@@ -4,6 +4,8 @@
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Node.js 20+](https://img.shields.io/badge/node.js-20%2B-339933.svg)](https://nodejs.org/)
 
+![CursorWitness core lifecycle](assets/core-lifecycle.svg)
+
 The transport-neutral reliability engine for [CursorWitness](https://github.com/CursorWitness).
 
 CursorWitness tests the lifecycle between Stellar RPC event delivery and an application's observable state. The core package provides the contracts, deterministic fixtures, lifecycle observations, independent oracle, scenarios, and versioned semantic reports used by the CLI and adapters.
