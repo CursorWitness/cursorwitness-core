@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cursorwitness.dev/schemas/fixture-v1.schema.json",
+  "title": "CursorWitness getEvents fixture v1",
+  "type": "object",
+  "required": ["schemaVersion", "id", "rpcMethod", "provenance", "pages"],
+  "properties": {
+    "schemaVersion": { "const": "fixture.v1" },
+    "id": { "type": "string", "minLength": 1, "maxLength": 4096 },
+    "rpcMethod": { "const": "getEvents" },
+    "provenance": { "enum": ["synthetic", "captured"] },
+    "pages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1024,
+      "items": { "$ref": "#/$defs/page" }
+    }
+  },
+  "$defs": {
+    "page": {
+      "type": "object",
+      "required": ["requestKey"],
+      "properties": {
+        "requestKey": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "request": { "$ref": "#/$defs/request" },
+        "response": { "$ref": "#/$defs/response" },
+        "error": { "$ref": "#/$defs/error" }
+      },
+      "oneOf": [
+        { "required": ["response"], "properties": { "response": {} } },
+        { "required": ["error"], "properties": { "error": {} } }
+      ],
+      "additionalProperties": false
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "startLedger": { "type": "integer", "minimum": 0 },
+        "endLedger": { "type": "integer", "minimum": 0 },
+        "filters": { "type": "array" },
+        "pagination": {
+          "type": "object",
+          "properties": {
+            "cursor": { "type": "string", "minLength": 1, "maxLength": 4096 },
+            "limit": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        },
+        "xdrFormat": { "enum": ["base64", "json"] }
+      },
+      "additionalProperties": false
+    },
+    "response": {
+      "type": "object",
+      "required": ["events", "oldestLedger", "latestLedger"],
+      "properties": {
+        "events": { "type": "array", "maxItems": 100000, "items": { "$ref": "#/$defs/event" } },
+        "oldestLedger": { "type": "integer", "minimum": 0 },
+        "latestLedger": { "type": "integer", "minimum": 0 },
+        "cursor": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "oldestLedgerCloseTime": { "type": "string" },
+        "latestLedgerCloseTime": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "required": ["id", "type", "ledger", "topic", "value"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "type": { "enum": ["contract", "system"] },
+        "ledger": { "type": "integer", "minimum": 0 },
+        "ledgerClosedAt": { "type": "string" },
+        "contractId": { "type": "string" },
+        "transactionIndex": { "type": "integer", "minimum": 0 },
+        "operationIndex": { "type": "integer", "minimum": 0 },
+        "topic": { "type": "array", "maxItems": 4, "items": { "type": "string", "minLength": 1, "maxLength": 4096 } },
+        "value": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "txHash": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "error": {
+      "type": "object",
+      "required": ["class", "code", "message", "retryable"],
+      "properties": {
+        "class": { "enum": ["history-unavailable", "transport", "invalid-request", "unknown"] },
+        "code": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "message": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "retryable": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+{
+  "name": "@cursorwitness/core",
+  "version": "0.1.0-seam.0",
+  "description": "CursorWitness transport-neutral reliability-testing core.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": { "node": ">=20.19.0" },
+  "packageManager": "pnpm@10.12.4",
+  "files": ["dist", "schemas", "README.md", "LICENSE"],
+  "exports": {
+    ".": "./dist/index.js",
+    "./schemas/*": "./schemas/*"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --experimental-strip-types --test test/*.test.ts",
+    "package:check": "pnpm run build && node scripts/verify-package.mjs",
+    "verify": "pnpm run typecheck && pnpm test && pnpm run package:check"
+  },
+  "devDependencies": {
+    "ajv": "8.17.1",
+    "@types/node": "^24.8.0",
+    "typescript": "^5.9.2"
+  }
+}

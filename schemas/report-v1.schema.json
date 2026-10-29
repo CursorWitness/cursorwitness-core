@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cursorwitness.dev/schemas/report-v1.schema.json",
+  "title": "CursorWitness semantic reliability report v1",
+  "type": "object",
+  "required": ["schemaVersion", "scenarioId", "status", "evidenceMode", "assertions", "summary", "trace"],
+  "properties": {
+    "schemaVersion": { "const": "report.v1" },
+    "scenarioId": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["pass", "fail", "unverified"] },
+    "evidenceMode": { "enum": ["simulated-offline", "provider-observed"] },
+    "assertions": { "type": "array", "items": { "$ref": "#/$defs/assertion" } },
+    "summary": { "$ref": "#/$defs/summary" },
+    "trace": { "type": "array", "items": { "$ref": "#/$defs/traceEntry" } }
+  },
+  "$defs": {
+    "assertion": {
+      "type": "object",
+      "required": ["id", "status", "message", "evidenceRefs"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "status": { "enum": ["pass", "fail", "unverified"] },
+        "message": { "type": "string", "minLength": 1 },
+        "evidenceRefs": { "type": "array", "items": { "type": "string", "minLength": 1 } }
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": ["expectedEventCount", "observedEventCount", "deliveryCount", "handlerInvocationCount", "effectAttemptCount", "committedEffectCount", "uniqueCommittedEffectCount"],
+      "properties": {
+        "expectedEventCount": { "type": "integer", "minimum": 0 },
+        "observedEventCount": { "type": "integer", "minimum": 0 },
+        "deliveryCount": { "type": "integer", "minimum": 0 },
+        "handlerInvocationCount": { "type": "integer", "minimum": 0 },
+        "effectAttemptCount": { "type": "integer", "minimum": 0 },
+        "committedEffectCount": { "type": "integer", "minimum": 0 },
+        "uniqueCommittedEffectCount": { "type": "integer", "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "traceEntry": {
+      "oneOf": [
+        { "$ref": "#/$defs/deliveryTrace" },
+        { "$ref": "#/$defs/handlerTrace" },
+        { "$ref": "#/$defs/effectAttemptTrace" },
+        { "$ref": "#/$defs/effectCommitTrace" },
+        { "$ref": "#/$defs/checkpointTrace" },
+        { "$ref": "#/$defs/providerErrorTrace" }
+      ]
+    },
+    "traceBase": {
+      "type": "object",
+      "required": ["sequence"],
+      "properties": {
+        "sequence": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "deliveryTrace": {
+      "allOf": [
+        { "$ref": "#/$defs/traceBase" },
+        {
+          "type": "object",
+          "required": ["kind", "eventId", "attempt"],
+          "properties": {
+            "sequence": { "type": "integer", "minimum": 0 },
+            "kind": { "const": "delivery" },
+            "eventId": { "type": "string", "minLength": 1 },
+            "attempt": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "handlerTrace": {
+      "allOf": [
+        { "$ref": "#/$defs/traceBase" },
+        {
+          "type": "object",
+          "required": ["kind", "eventId", "attempt"],
+          "properties": {
+            "sequence": { "type": "integer", "minimum": 0 },
+            "kind": { "const": "handler" },
+            "eventId": { "type": "string", "minLength": 1 },
+            "attempt": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "effectAttemptTrace": {
+      "allOf": [
+        { "$ref": "#/$defs/traceBase" },
+        {
+          "type": "object",
+          "required": ["kind", "effectKey", "eventId", "attempt"],
+          "properties": {
+            "sequence": { "type": "integer", "minimum": 0 },
+            "kind": { "const": "effect-attempt" },
+            "effectKey": { "type": "string", "minLength": 1 },
+            "eventId": { "type": "string", "minLength": 1 },
+            "attempt": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "effectCommitTrace": {
+      "allOf": [
+        { "$ref": "#/$defs/traceBase" },
+        {
+          "type": "object",
+          "required": ["kind", "effectKey", "eventId", "attempt", "persistence"],
+          "properties": {
+            "sequence": { "type": "integer", "minimum": 0 },
+            "kind": { "const": "effect-commit" },
+            "effectKey": { "type": "string", "minLength": 1 },
+            "eventId": { "type": "string", "minLength": 1 },
+            "attempt": { "type": "integer", "minimum": 1 },
+            "persistence": { "enum": ["test-double", "file", "database", "adapter-declared"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "checkpointTrace": {
+      "allOf": [
+        { "$ref": "#/$defs/traceBase" },
+        {
+          "type": "object",
+          "required": ["kind", "operation", "outcome", "evidence", "persistence"],
+          "properties": {
+            "sequence": { "type": "integer", "minimum": 0 },
+            "kind": { "const": "checkpoint" },
+            "operation": { "enum": ["load", "save"] },
+            "outcome": { "enum": ["loaded", "saved", "missing", "failed"] },
+            "evidence": { "enum": ["observed", "unavailable"] },
+            "persistence": { "enum": ["test-double", "file", "database", "adapter-declared"] }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+    "providerErrorTrace": {
+      "allOf": [
+        { "$ref": "#/$defs/traceBase" },
+        {
+          "type": "object",
+          "required": ["kind", "class", "code", "retryable"],
+          "properties": {
+            "sequence": { "type": "integer", "minimum": 0 },
+            "kind": { "const": "provider-error" },
+            "class": { "enum": ["history-unavailable", "transport", "invalid-request", "unknown"] },
+            "code": { "type": "string", "minLength": 1 },
+            "retryable": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}
