@@ -12,7 +12,6 @@
     "./schemas/*": "./schemas/*"
   },
   "scripts": {
-    "prepare": "pnpm run build",
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "test": "node --experimental-strip-types --test test/*.test.ts",
