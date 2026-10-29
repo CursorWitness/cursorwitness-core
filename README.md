@@ -5,15 +5,12 @@
 [![CI](https://github.com/CursorWitness/cursorwitness-core/actions/workflows/ci.yml/badge.svg)](https://github.com/CursorWitness/cursorwitness-core/actions/workflows/ci.yml)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 [![Node.js 20+](https://img.shields.io/badge/node.js-20%2B-339933.svg)](https://nodejs.org/)
-[![Status: development](https://img.shields.io/badge/status-development-orange.svg)](#project-status)
 
 The transport-neutral reliability engine for [CursorWitness](https://github.com/CursorWitness).
 
 CursorWitness tests the lifecycle between Stellar RPC event delivery and an application's observable state. The core package provides the contracts, deterministic fixtures, lifecycle observations, independent oracle, scenarios, and versioned semantic reports used by the CLI and adapters.
 
 ## Repository role
-
-Core owns the deterministic reliability evidence model used by the other repositories:
 
 ```text
 Stellar getEvents fixture
@@ -66,8 +63,6 @@ pnpm run package:check
 - [`test/`](test/) — unit and scenario-level contract tests
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — contribution workflow
 - [`SECURITY.md`](SECURITY.md) — security boundaries and reporting
-- [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) — community standards
-- [`CHANGELOG.md`](CHANGELOG.md) — release and change history
 
 ## Project status
 
@@ -85,5 +80,3 @@ This repository is an implementation seam for the CursorWitness v0.1.0 developme
 ## License
 
 Apache-2.0. See [`LICENSE`](LICENSE).
-
-See also: [`CONTRIBUTING.md`](CONTRIBUTING.md) · [`SECURITY.md`](SECURITY.md) · [`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) · [`CHANGELOG.md`](CHANGELOG.md)
